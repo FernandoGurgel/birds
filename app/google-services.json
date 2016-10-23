@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "52087477686",
+    "firebase_url": "https://birds-b455c.firebaseio.com",
+    "project_id": "birds-b455c",
+    "storage_bucket": "birds-b455c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52087477686:android:15ae09155bf095fe",
+        "android_client_info": {
+          "package_name": "birds.celioantony.br.birds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52087477686-v8hpmfc5k94o6de3b4f75gbh2dt17aan.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB964LnXMu75B9SlSshFH-gFYyKUMrdMsY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
