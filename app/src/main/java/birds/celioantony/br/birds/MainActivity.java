@@ -3,9 +3,12 @@ package birds.celioantony.br.birds;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -15,32 +18,37 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerAdapter.AdapterListener{
 
-    ArrayList<Musics> musics;
+    ArrayList<Musics> musics = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        GridView gridview = (GridView) findViewById(R.id.grid_musics);
-        gridview.setAdapter(new CardAdapter(this));
-
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                Toast.makeText(MainActivity.this, "" + position,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
         // get data in firebase
-        readDataFirebase();
+         readDataFirebase();
 
+    }
+
+    public void createAdapter(ArrayList<Musics> m) {
+        // Create Adapter
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(this, m);
+
+        //Get reference our Recycler on layout
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_musics);
+
+        // Connect to recyler adapter
+        recyclerView.setAdapter(recyclerAdapter);
+        //Set orientation  of our RecycerView how LinearLayout (Vertical)
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        recyclerAdapter.setListener(this);
     }
 
     public void toYoutube(View view) {
@@ -59,8 +67,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.i("LISTENER", "" + dataSnapshot.getValue());
-                musics = (ArrayList<Musics>) dataSnapshot.getValue();
+
+                for(DataSnapshot obj: dataSnapshot.getChildren()) {
+                    Musics m = new Musics();
+                    m = obj.getValue(Musics.class);
+//                    m.setM_id(obj.child("m_id").toString());
+//                    m.setTime(obj.child("time").toString());
+//                    m.setCover(obj.child("cover").toString());
+//                    m.setCover("");
+                    musics.add(m);
+                }
+
                 Log.i("ARRAYLIST MUSIC", "" + musics);
+
+                createAdapter(musics);
+
+                // Mount Grid with data retriever
+//                GridView gridview = (GridView) findViewById(R.id.grid_musics);
+//                gridview.setAdapter(new CardAdapter(MainActivity.this, musics));
+//                gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    public void onItemClick(AdapterView<?> parent, View v,
+//                                            int position, long id) {
+//                        Toast.makeText(MainActivity.this, "" + position,
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }
 
             @Override
@@ -71,5 +102,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         reference.addValueEventListener(postListener);
+    }
+
+    @Override
+    public void onItemClick(View view, int posicao) {
+//        Toast.makeText(this, ""+posicao, Toast.LENGTH_SHORT).show();
     }
 }

@@ -14,13 +14,29 @@ import com.google.android.youtube.player.YouTubePlayerView;
 public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     private static final String API_KEY = "AIzaSyBzb3hAiKmH0wjid_L2a6M-wgNqR3Dh6b8";
-    private String videoId = "5BuIWVd_iFQ";
     private YouTubePlayerView youtubeView;
+
+    private String ID;
+    private String title;
+    private String url;
+    private String cover;
+    private String time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_youtube);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            ID = null;
+        } else {
+            ID = extras.getString("mid");
+            title = extras.getString("title");
+            time = extras.getString("time");
+            url = extras.getString("url");
+            cover = extras.getString("cover");
+        }
 
         youtubeView = (YouTubePlayerView) findViewById(R.id.youtube_player);
         youtubeView.initialize(API_KEY, this);
@@ -31,7 +47,7 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
         Log.i("YOUTUBE", "RAIZ 1");
         if(!b) {
             Log.i("YOUTUBE", "RAIZ 2");
-            youTubePlayer.cueVideo(videoId);
+            youTubePlayer.cueVideo(ID);
         }
 
     }
