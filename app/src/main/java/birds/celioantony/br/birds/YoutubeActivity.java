@@ -1,15 +1,29 @@
 package birds.celioantony.br.birds;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
@@ -40,6 +54,8 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
 
         youtubeView = (YouTubePlayerView) findViewById(R.id.youtube_player);
         youtubeView.initialize(API_KEY, this);
+
+        downloadVideoYoutube();
     }
 
     @Override
@@ -56,4 +72,18 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
         Toast.makeText(this, "onInitializationFailure()", Toast.LENGTH_SHORT).show();
     }
+
+    public void downloadVideoYoutube() {
+        final Button btnDownload = (Button) findViewById(R.id.download_video);
+        final String urlDownload = "http://br.keepvid.com/?url="+url;
+        btnDownload.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlDownload));
+                startActivity(browserIntent);
+            }
+        });
+    }
+
 }

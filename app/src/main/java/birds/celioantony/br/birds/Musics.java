@@ -2,6 +2,8 @@ package birds.celioantony.br.birds;
 
 import com.google.firebase.database.DataSnapshot;
 
+import java.io.Serializable;
+
 /**
  * Created by Celio Antony on 23/10/2016.
  */
