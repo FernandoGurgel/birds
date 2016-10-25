@@ -53,11 +53,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.A
         recyclerAdapter.setListener(this);
     }
 
-    public void toYoutube(View view) {
-        Intent intent = new Intent(this, YoutubeActivity.class);
-        startActivity(intent);
-    }
-
     public void readDataFirebase() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("musics");
@@ -73,27 +68,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.A
                 for(DataSnapshot obj: dataSnapshot.getChildren()) {
                     Musics m = new Musics();
                     m = obj.getValue(Musics.class);
-//                    m.setM_id(obj.child("m_id").toString());
-//                    m.setTime(obj.child("time").toString());
-//                    m.setCover(obj.child("cover").toString());
-//                    m.setCover("");
                     musics.add(m);
                 }
 
                 Log.i("ARRAYLIST MUSIC", "" + musics);
 
                 createAdapter(musics);
-
-                // Mount Grid with data retriever
-//                GridView gridview = (GridView) findViewById(R.id.grid_musics);
-//                gridview.setAdapter(new CardAdapter(MainActivity.this, musics));
-//                gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    public void onItemClick(AdapterView<?> parent, View v,
-//                                            int position, long id) {
-//                        Toast.makeText(MainActivity.this, "" + position,
-//                                Toast.LENGTH_SHORT).show();
-//                    }
-//                });
             }
 
             @Override
