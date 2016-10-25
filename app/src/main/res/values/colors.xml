@@ -6,4 +6,7 @@
 
     <color name="colorTitleCard">#ffffff</color>
     <color name="colorTime">#ffffff</color>
+
+    <color name="genericColor">#fff</color>
+
 </resources>

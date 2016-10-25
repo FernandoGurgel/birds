@@ -1,13 +1,19 @@
 package birds.celioantony.br.birds;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,10 +36,11 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
 
     private static final String API_KEY = "AIzaSyBzb3hAiKmH0wjid_L2a6M-wgNqR3Dh6b8";
     private YouTubePlayerView youtubeView;
+    ProgressDialog progressDialog;
 
     private String ID;
     private String title;
-    private String url;
+    private String urly;
     private String cover;
     private String time;
 
@@ -41,6 +48,9 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_youtube);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Processando");
+//        settingsActivity();
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -49,7 +59,7 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
             ID = extras.getString("mid");
             title = extras.getString("title");
             time = extras.getString("time");
-            url = extras.getString("url");
+            urly = extras.getString("url");
             cover = extras.getString("cover");
         }
 
@@ -58,16 +68,19 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
 
         descriptionMusic();
         downloadVideoYoutube();
+
     }
 
     public void descriptionMusic() {
+        TextView titleView = (TextView) findViewById(R.id.title_music);
         TextView textView = (TextView) findViewById(R.id.description_music);
+        String t = title+"\n";
         String descriptionn =
-                "TITLE: " + title +
-                "TIME: " + time +
-                "URL: " + url +
-                "ID: " + ID;
+                "\nTIME: " + time +
+                "\nURL: " + urly +
+                "\nID: " + ID;
 
+        titleView.setText(t);
         textView.setText(descriptionn);
     }
 
@@ -88,15 +101,58 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
 
     public void downloadVideoYoutube() {
         final Button btnDownload = (Button) findViewById(R.id.download_video);
-        final String urlDownload = "http://br.keepvid.com/?url="+url;
+//        final String urlDownload = "http://br.keepvid.com/?url="+url;
+        final String urlDownload = urly;
         btnDownload.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlDownload));
-                startActivity(browserIntent);
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlDownload));
+//                startActivity(browserIntent);
+                loadLinksDownload(urlDownload);
+                progressDialog.show();
             }
         });
     }
 
+    public void loadLinksDownload(final String urlDownload){
+        // teste webview
+        final WebView webview = (WebView) findViewById(R.id.webview);
+        webview.getSettings().setJavaScriptEnabled(true);
+//        webview.addJavascriptInterface(new MyJavaScriptInterface(), "HTMLOUT");
+        webview.loadUrl("http://pt.savefrom.net");
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Log.d("URL CLICK", "URL:"+url);
+                return true;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url,
+                                      Bitmap favicon) {
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+//                webview.loadUrl("javascript:window.HTMLOUT.processHTML('<html>'+document.getElementById('dl').innerHTML+'</html>');");
+                webview.loadUrl("javascript:var el = document.getElementById('sf_url').value='"+urlDownload+"'; document.getElementById('sf_submit').click();");
+                progressDialog.dismiss();
+                webview.setVisibility(View.VISIBLE);
+                webview.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        webview.loadUrl("javascript: document.getElementsById('sf_result').innerHTML;");
+                    }
+                });
+
+            }
+        });
+
+    }
+
+    public void settingsActivity() {
+        SetttingsApp settings = new SetttingsApp(YoutubeActivity.this);
+        settings.setYoutube("Birds Musics");
+    }
 }

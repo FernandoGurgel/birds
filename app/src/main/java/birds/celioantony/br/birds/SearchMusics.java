@@ -3,6 +3,7 @@ package birds.celioantony.br.birds;
 import android.app.ProgressDialog;
 import android.provider.ContactsContract;
 import android.provider.SyncStateContract;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,7 @@ public class SearchMusics extends AppCompatActivity implements RecyclerAdapter.A
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_musics);
+        settingsActivity();
 
         progressDialog= new ProgressDialog(this);
         progressDialog.setMessage("Buscando...");
@@ -120,5 +122,10 @@ public class SearchMusics extends AppCompatActivity implements RecyclerAdapter.A
     @Override
     public void onItemClick(View view, int posicao) {
 
+    }
+
+    public void settingsActivity() {
+        SetttingsApp settings = new SetttingsApp(SearchMusics.this);
+        settings.setTtitleAndIcon("Birds Musics");
     }
 }

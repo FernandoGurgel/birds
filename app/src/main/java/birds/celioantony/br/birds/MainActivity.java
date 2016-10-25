@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.A
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        settingsActivity();
+
         // get data in firebase
          readDataFirebase();
 
@@ -105,5 +107,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.A
             startActivity(new Intent(this, SearchMusics.class));
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void settingsActivity() {
+        SetttingsApp settings = new SetttingsApp(MainActivity.this);
+        settings.setTtitleAndIcon("Birds Musics");
     }
 }
