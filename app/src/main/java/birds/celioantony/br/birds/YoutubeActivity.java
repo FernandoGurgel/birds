@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -55,7 +56,19 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
         youtubeView = (YouTubePlayerView) findViewById(R.id.youtube_player);
         youtubeView.initialize(API_KEY, this);
 
+        descriptionMusic();
         downloadVideoYoutube();
+    }
+
+    public void descriptionMusic() {
+        TextView textView = (TextView) findViewById(R.id.description_music);
+        String descriptionn =
+                "TITLE: " + title +
+                "TIME: " + time +
+                "URL: " + url +
+                "ID: " + ID;
+
+        textView.setText(descriptionn);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class SearchMusics extends AppCompatActivity implements RecyclerAdapter.A
         setContentView(R.layout.activity_search_musics);
 
         progressDialog= new ProgressDialog(this);
-        progressDialog.setMessage("Enviando livro...");
+        progressDialog.setMessage("Buscando...");
 
 
         ImageView imgSearch = (ImageView) findViewById(R.id.img_search);
@@ -65,9 +65,6 @@ public class SearchMusics extends AppCompatActivity implements RecyclerAdapter.A
     public void Search() {
         EditText searchField = (EditText) findViewById(R.id.input_search_music);
         String information = searchField.getText().toString();
-
-//        progressDialog.setMessage("Buscando a músicas...");
-//        progressDialog.show();
 
         searchMusics(information);
         Log.d("INFO", "PASS FUNCTION SEARCH_MUSIC");

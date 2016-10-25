@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Birds</string>
+    <string name="app_name">Birds Musics</string>
     <string name="music_name_ex">Bruno Mars - When I Was Your Man</string>
     <string name="artist_ex">Bruno Mars</string>
     <string name="title_ex">Name artists and name of music with details.</string>
+    <string name="description_music">Title: All informations musics \n Time: 3:00 \n URL: https://www.google.com \n ID: SAKSD238742</string>
 </resources>

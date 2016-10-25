@@ -1,5 +1,6 @@
 package birds.celioantony.br.birds;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.A
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // get data in firebase
          readDataFirebase();
 
@@ -56,9 +56,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.A
     public void readDataFirebase() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("musics");
+        final ProgressDialog progressDialog = new ProgressDialog(this);
 
 
-        Log.i("READ FIREBASE", "READ DATA FIREBASE");
+        progressDialog.setMessage("Carregando músicas...");
+        progressDialog.show();
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -71,9 +73,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.A
                     musics.add(m);
                 }
 
-                Log.i("ARRAYLIST MUSIC", "" + musics);
-
                 createAdapter(musics);
+                progressDialog.dismiss();
             }
 
             @Override
